@@ -1,0 +1,199 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;==========================================================
+
+[conf]
+  background = #222
+  background-alt = #444
+  background-alt-2 = #777
+  foreground = #dfdfdf
+  foreground-alt = #555
+  primary = #ffb52a
+  secondary = #e60053
+  alert = #bd2c40
+  padding = 2
+
+[bar/main]
+  width = 100%
+  height = 24
+  fixed-center = true
+  dpi = 160
+  background = ${conf.background}
+  foreground = ${conf.foreground}
+  line-size = 3
+  line-color = #f00
+  module-margin-left = 1
+  module-margin-right = 1
+  border-color = ${conf.background}
+  border-top-size = 10
+  border-bottom-size = 10
+  border-selt-size = 10
+  border-right-size = 10
+  font-0 = fixed:pixelsize=10;3
+  font-1 = unifont:fontformat=truetype:size=8:antialias=false;3
+  font-2 = siji:pixelsize=10;3
+  modules-left = i3
+  modules-right = cpu pulseaudio filesystem wlan eth battery date
+  tray-position = right
+  tray-padding = 2
+  cursor-click = pointer
+  cursor-scroll = ns-resize
+
+[module/filesystem]
+  type = internal/fs
+  interval = 25
+  mount-0 = /
+  label-mounted = %free%
+  label-unmounted = %mountpoint% not mounted
+  label-unmounted-foreground = ${conf.foreground-alt}
+  label-mounted-background = ${conf.background-alt}
+  label-mounted-padding = ${conf.padding}
+
+[module/bspwm]
+  type = internal/bspwm
+  label-focused = %index%
+  label-focused-background = ${conf.background-alt}
+  label-focused-underline= ${conf.primary}
+  label-focused-padding = ${conf.padding}
+  label-occupied = %index%
+  label-occupied-padding = ${conf.padding}
+  label-urgent = %index%!
+  label-urgent-background = ${conf.alert}
+  label-urgent-padding = ${conf.padding}
+  label-empty = %index%
+  label-empty-foreground = ${conf.foreground-alt}
+  label-empty-padding = ${conf.padding}
+
+[module/i3]
+  type = internal/i3
+  format = <label-state> <label-mode>
+  index-sort = true
+  wrapping-scroll = false
+  label-mode-padding = 2
+  label-mode-foreground = #000
+  label-mode-background = ${conf.primary}
+  label-focused = %index%
+  label-focused-background = ${module/bspwm.label-focused-background}
+  label-focused-padding = ${module/bspwm.label-focused-padding}
+  label-unfocused = %index%
+  label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+  label-visible = %index%
+  label-visible-background = ${self.label-focused-background}
+  label-visible-padding = ${self.label-focused-padding}
+  label-urgent = %index%
+  label-urgent-background = ${module/bspwm.label-urgent-background}
+  label-urgent-padding = ${module/bspwm.label-urgent-padding}
+  label-focused-margin-left = 1
+  label-unfocused-margin-left = 1
+  label-visible-margin-left = 1
+  label-urgent-margin-left = 1
+
+[module/cpu]
+  type = internal/cpu
+  interval = 2
+  ramp-coreload-spacing = 1
+  ramp-coreload-0 = ▁
+  ramp-coreload-1 = ▂
+  ramp-coreload-2 = ▃
+  ramp-coreload-3 = ▄
+  ramp-coreload-4 = ▅
+  ramp-coreload-5 = ▆
+  ramp-coreload-6 = ▇
+  ramp-coreload-7 = █
+  format = <ramp-coreload>
+
+[module/memory]
+  type = internal/memory
+  interval = 2
+  label = M %percentage_used%%
+
+[module/wlan]
+  type = internal/network
+  interface = wlp2s0
+  interval = 3.0
+  label-connected = W  %essid%  %local_ip%
+  label-connected-background = ${conf.background-alt}
+  label-connected-padding = ${conf.padding}
+  label-background = ${conf.background-alt}
+  label-padding = ${conf.padding}
+
+[module/eth]
+  type = internal/network
+  interface = enp0s20f0u1u1
+  interval = 3.0
+  label-connected = E %local_ip%
+  label-connected-background = ${conf.background-alt}
+  label-connected-padding = ${conf.padding}
+  label-background = ${conf.background-alt}
+  label-padding = ${conf.padding}
+
+[module/date]
+  type = internal/date
+  interval = 5
+  date = "%d.%m.%Y"
+  date-alt = "%d.%m.%Y"
+  time = %H:%M
+  time-alt = %H:%M:%S
+  label = %date% %time%
+  label-background = ${conf.background-alt}
+  label-padding = ${conf.padding}
+
+[module/pulseaudio]
+  type = internal/pulseaudio
+  label-volume = ♪ %percentage%%
+  label-muted = ♪ muted(%percentage%%)
+  label-background = ${conf.background-alt}
+  label-padding = ${conf.padding}
+  label-muted-background = ${conf.background-alt}
+  label-volume-background = ${conf.background-alt}
+  label-muted-padding = ${conf.padding}
+  label-volume-padding = ${conf.padding}
+
+[module/battery]
+  type = internal/battery
+  battery = BAT0
+  adapter = AC0
+  full-at = 98
+  label-charging = CHR %percentage%%
+  label-discharging = BAT %percentage%%
+  label-full = FUL %percentage%%
+  label-full-background = ${conf.background-alt}
+  label-full-padding = ${conf.padding}
+  label-charging-background = ${conf.background-alt}
+  label-charging-padding = ${conf.padding}
+  label-discharging-background = ${conf.background-alt}
+  label-discharging-padding = ${conf.padding}
+  label-background = ${conf.background-alt}
+  label-padding = ${conf.padding}
+
+[module/temperature]
+  type = internal/temperature
+  thermal-zone = 0
+  warn-temperature = 60
+  format = <ramp> <label>
+  format-underline = #f50a4d
+  format-warn = <ramp> <label-warn>
+  format-warn-underline = ${self.format-underline}
+  label = %temperature-c%
+  label-warn = %temperature-c%
+
+[settings]
+  screenchange-reload = true
+
+[global/wm]
+  margin-top = 5
+  margin-bottom = 5
