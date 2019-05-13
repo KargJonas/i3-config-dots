@@ -2,8 +2,15 @@
 #    Start    #
 ###############
 
+# i3-gaps
 gaps inner 10
 gaps outer 5
+for_window [class="Matplotlib"] floating enable
+for_window [class="Matplotlib"] resize set 1300 1000
+# for_window [class="Matplotlib"] move set 0 0
+for_window [class=".*"] border pixel 3
+# bindsym $mod+Left+g gaps inner current plus 5
+# bindsym $mod+Right+g gaps inner current minus 5
 
 # Start polybar
 exec_always --no-startup-id ../polybar/launch.sh
